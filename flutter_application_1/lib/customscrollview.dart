@@ -10,6 +10,7 @@ class CustomScrollViewExampleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false, //debug banner kaldırma
       home: CustomScrollViewExample(),
     );
   }
@@ -26,39 +27,22 @@ class CustomScrollViewExample extends StatefulWidget {
 class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
   List<int> top = <int>[];
   List<int> bottom = <int>[0];
+  void testFunction(){
+    setState(() {
+              top.add(-top.length - 1);
+              bottom.add(bottom.length);
+            });
+  }
 
   @override
   Widget build(BuildContext context) {
     const Key centerKey = ValueKey<String>('bottom-sliver-list');
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Press on the plus to add items above and below'),
-        leading: IconButton(
-          icon: const Icon(Icons.add),
-          onPressed: () {
-            setState(() {
-              top.add(-top.length - 1);
-              bottom.add(bottom.length);
-            });
-          },
-        ),
-      ),
+      
       body: CustomScrollView(
         center: centerKey,
         slivers: <Widget>[
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return Container(
-                  alignment: Alignment.center,
-                  color: Colors.blue[200 + top[index] % 4 * 100],
-                  height: 100 + top[index] % 4 * 20.0,
-                  child: Text('Item: ${top[index]}'),
-                );
-              },
-              childCount: top.length,
-            ),
-          ),
+          
           SliverList(
             key: centerKey,
             delegate: SliverChildBuilderDelegate(
@@ -66,14 +50,20 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
                 return Container(
                   alignment: Alignment.center,
                   color: Colors.blue[200 + bottom[index] % 4 * 100],
-                  height: 100 + bottom[index] % 4 * 20.0,
+                  height: 100,
                   child: Text('Item: ${bottom[index]}'),
                 );
               },
               childCount: bottom.length,
             ),
+            
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: testFunction ,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
       ),
     );
   }
