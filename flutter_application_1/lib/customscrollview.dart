@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(const CustomScrollViewExampleApp());
 
+
 class CustomScrollViewExampleApp extends StatelessWidget {
   const CustomScrollViewExampleApp({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +62,21 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: testFunction ,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: SizedBox(
+        width: MediaQuery.sizeOf(context).width*0.9,
+        height: 100,
+        child: Container(
+          color: Colors.black45,
+          child: const Row(
+            children: [
+              Text("data"),
+              
+            ],
+          ),
+    ),
+    
+  ),
+  floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
