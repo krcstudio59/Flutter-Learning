@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/CustomElevatedButton.dart';
+import 'package:flutter_application_1/CustomTaskWidget.dart';
 
 /// Flutter code sample for [CustomScrollView].
 
@@ -51,9 +53,8 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
               (BuildContext context, int index) {
                 return Container(
                   alignment: Alignment.center,
-                  color: Colors.blue[200 + bottom[index] % 4 * 100],
                   height: 100,
-                  child: Text('Item: ${bottom[index]}'),
+                  child: CustomTaskWidget(onPressed: testFunction),
                 );
               },
               childCount: bottom.length,
@@ -62,20 +63,31 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
           ),
         ],
       ),
-      floatingActionButton: SizedBox(
+      floatingActionButton: Container(
+        decoration: const BoxDecoration
+        (
+          color: Colors.black38,
+          borderRadius: BorderRadius.all(Radius.circular(100))
+        ),
         width: MediaQuery.sizeOf(context).width*0.9,
         height: 100,
-        child: Container(
-          color: Colors.black45,
-          child: const Row(
-            children: [
-              Text("data"),
-              
-            ],
-          ),
-    ),
-    
-  ),
+        padding: const EdgeInsetsDirectional.only(start: 20, end: 20),
+        child: Row
+        (
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: 
+          [
+              const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("data"),
+                Text("data")
+              ],
+            ),
+            CustomElevatedButton(onPressed: testFunction),
+          ],
+        ),
+      ),
   floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
