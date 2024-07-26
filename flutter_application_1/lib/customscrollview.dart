@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/CustomElevatedButton.dart';
 import 'package:flutter_application_1/CustomTaskWidget.dart';
 
-/// Flutter code sample for [CustomScrollView].
-
 void main() => runApp(const CustomScrollViewExampleApp());
-
 
 class CustomScrollViewExampleApp extends StatelessWidget {
   const CustomScrollViewExampleApp({super.key});
-  
 
   @override
   Widget build(BuildContext context) {
@@ -31,54 +27,67 @@ class CustomScrollViewExample extends StatefulWidget {
 class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
   List<int> top = <int>[];
   List<int> bottom = <int>[0];
-  void testFunction(){
+
+  void testFunction() {
     setState(() {
-              top.add(-top.length - 1);
-              bottom.add(bottom.length);
-            });
+      top.add(-top.length - 1);
+      bottom.add(bottom.length);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     const Key centerKey = ValueKey<String>('bottom-sliver-list');
     return Scaffold(
-      
       body: CustomScrollView(
         center: centerKey,
         slivers: <Widget>[
-          
           SliverList(
             key: centerKey,
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
-                return Container(
-                  alignment: Alignment.center,
-                  height: 100,
-                  child: CustomTaskWidget(onPressed: testFunction),
+                return Dismissible(
+                  key: UniqueKey(), // Her öğe için benzersiz bir anahtar oluşturulmalı
+                  direction: DismissDirection.endToStart,
+                  onDismissed: (direction) {
+                    setState(() {
+                      bottom.removeAt(index);
+                    });
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Task dismissed')),
+                    );
+                  },
+                  background: Container(
+                    color: Colors.red,
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: const Icon(Icons.delete, color: Colors.white),
+                  ),
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 100,
+                    child: CustomTaskWidget(onPressed: testFunction,),
+                  ),
                 );
               },
               childCount: bottom.length,
             ),
-            
           ),
         ],
       ),
       floatingActionButton: Container(
-        decoration: const BoxDecoration
-        (
-          color: Colors.black38,
-          borderRadius: BorderRadius.all(Radius.circular(100))
-        ),
-        width: MediaQuery.sizeOf(context).width*0.9,
+        decoration: const BoxDecoration(
+            color: Colors.black38,
+            borderRadius: BorderRadius.all(Radius.circular(100))),
+        width: MediaQuery.sizeOf(context).width * 0.9,
         height: 100,
         padding: const EdgeInsetsDirectional.only(start: 20, end: 20),
-        child: Row
-        (
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: 
-          [
-              const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text("data"),
                 Text("data")
@@ -88,7 +97,7 @@ class _CustomScrollViewExampleState extends State<CustomScrollViewExample> {
           ],
         ),
       ),
-  floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
