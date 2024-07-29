@@ -36,19 +36,25 @@ class Popup extends StatelessWidget {
               ),
             ),
           ),
-          Center(
-            child: Container(
+          Center
+          (
+            child: Container
+            (
               width: double.infinity,
               margin: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
+              decoration: BoxDecoration
+              (
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(25),
               ),
-              child: Padding(
+              child: Padding
+              (
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Column(
+                child: Column
+                (
                   mainAxisSize: MainAxisSize.min,
-                  children: [
+                  children: 
+                  [
                     Text(
                       message,
                       style: TextStyle(fontSize: 24),
